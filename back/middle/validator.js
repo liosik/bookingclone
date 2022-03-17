@@ -1,5 +1,4 @@
 const validator = require("email-validator");
-const {use} = require("express/lib/router");
 const userSchema = require("../schemas/userSchema");
 const postSchema = require("../schemas/postSchema");
 
