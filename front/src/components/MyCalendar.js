@@ -2,8 +2,8 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import React, {useEffect, useState} from "react";
+import {Calendar, dateFnsLocalizer} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,14 +20,36 @@ const localizer = dateFnsLocalizer({
 });
 
 
-
 function MyCalendar({post, user, setPosts}) {
-    const events = post.reserved;
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-    const [allEvents, setAllEvents] = useState(events);
+    const [allEvents, setAllEvents] = useState(post.reserved);
+    const [date, setDate] = useState(null)
+
+    useEffect(() => {
+        setAllEvents(post.reserved)
+    }, [])
+
+    function setEvent() {
+        const newEvent = {
+            title: user.email,
+            start: date,
+            end: date
+        }
+
+        if (allEvents.length !== 0) {
+            if (allEvents.some(x => (JSON.stringify(newEvent.start)  === JSON.stringify(x.start)))) {
+                return alert("ALREADY BOOKED")
+            } else {
+                return setAllEvents([...allEvents, newEvent])
+            }
+        } else {
+            return setAllEvents([...allEvents, newEvent])
+        }
+
+
+    }
 
     async function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent]);
+
         const item = {
             id: post._id,
             reservations: allEvents
@@ -54,17 +76,21 @@ function MyCalendar({post, user, setPosts}) {
 
     return (
         <div className="App">
-            <h1>Calendar</h1>
-            <h2>Add New Event</h2>
+            <h2>Book A Day</h2>
             <div className='mb-200'>
-                <input type="text" style={{ width: "20%", marginRight: "10px" }} value={user.email} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
-                <DatePicker placeholderText="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} />
+                <DatePicker placeholderText="Choose Day"
+                            selected={date}
+                            excludeDates={allEvents.map(x=>new Date(x.start))}
+                            onChange={(start) => setDate(start)}/>
+                <button onClick={setEvent}>Confirm Date</button>
                 <button onClick={handleAddEvent}>
-                    Add Event
+                    Book
                 </button>
+                <button onClick={() => {
+                }}>test</button>
             </div>
-            <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
+            <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end"
+                      style={{height: 500, margin: "50px"}}/>
         </div>
     );
 }

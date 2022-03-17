@@ -39,7 +39,7 @@ const AddPost = ({setPosts}) => {
     return (
         <div className='d-flex column space-a'>
             <input ref={cityRef} defaultValue='City' type="text"/>
-            <input ref={photoRef} defaultValue='Photo' type="text"/>
+            <input ref={photoRef} defaultValue='https://picsum.photos/200/300' type="text"/>
             <input ref={priceRef} placeholder='Price' type="number"/>
             <button onClick={addPost}>Add Post</button>
         </div>

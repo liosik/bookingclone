@@ -21,10 +21,11 @@ module.exports = {
         const {email, stayLogged} = req.body
         const users = await userSchema.find()
         const user = users.find(x => email === x.email)
+        const posts = await postSchema.find()
         if (user) {
             console.log("User Logged in")
             stayLogged ? req.session.email = email : req.session.email = null
-            return res.send({success: true, user})
+            return res.send({success: true, user, posts})
         } else {
             res.send({success: false, errorMessage: "BAD CREDENTIALS"})
         }
@@ -34,8 +35,6 @@ module.exports = {
         const users = await userSchema.find()
         const user = users.find(x => userSecret === x.secret)
         const posts = await postSchema.find()
-        console.log(user)
-        console.log(posts)
         if (user) {
             res.send({success: true, user, posts})
         } else {
@@ -58,6 +57,7 @@ module.exports = {
 
         res.send({success: true, posts})
     },
+
     addReservation: async (req, res) => {
         const {id, reservations} = req.body
         console.log(reservations)
@@ -68,7 +68,6 @@ module.exports = {
                 console.log("Reservation Made")},
         )
         const posts = await postSchema.find()
-        console.log(posts)
         res.send({success: true, posts})
     }
 }

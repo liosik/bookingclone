@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
-const LoginUser = ({setUser}) => {
+const LoginUser = ({setUser, setPosts}) => {
     const pw1Ref = useRef()
     const emailRef = useRef()
     const [stayLogged, setStayLogged] = useState(false)
@@ -33,6 +33,7 @@ const LoginUser = ({setUser}) => {
             alert("Success! You've Logged In")
             nav("/")
             setUser(data.user)
+            setPosts(data.posts)
             if(stayLogged){
                 localStorage.setItem('userSecret', data.user.secret);
             }else{

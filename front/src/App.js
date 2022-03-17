@@ -63,7 +63,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<AllPosts posts={posts} user={user}/>}/>
                         <Route path="/register" element={<RegisterUser/>}/>
-                        <Route path="/login" element={<LoginUser setUser={setUser}/>}/>
+                        <Route path="/login" element={<LoginUser setPosts={setPosts} setUser={setUser}/>}/>
                         <Route path="/addpost" element={<AddPost setPosts={setPosts}/>}/>
                         <Route path="/singlepost/:id" element={<SinglePost setPosts={setPosts} posts={posts} user={user}/>}/>
 
