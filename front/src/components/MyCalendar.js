@@ -86,8 +86,6 @@ function MyCalendar({post, user, setPosts}) {
                 <button onClick={handleAddEvent}>
                     Book
                 </button>
-                <button onClick={() => {
-                }}>test</button>
             </div>
             <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end"
                       style={{height: 500, margin: "50px"}}/>
